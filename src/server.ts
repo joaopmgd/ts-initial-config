@@ -1,10 +1,13 @@
-import express from 'express'
-import routes from './routes'
+import app from './app'
+import { Configuration } from './config/Configuration'
 
-const app = express()
+const port = Configuration.port
 
-app.use(routes)
+const server = new app().Start(port)
+    .then(port => console.log(`Server running on port ${port}`))
+    .catch(error => {
+        console.log(error)
+        process.exit(1);
+    });
 
-app.listen(8080, () => {
-    console.log('Starting server')
-})
+export default server;

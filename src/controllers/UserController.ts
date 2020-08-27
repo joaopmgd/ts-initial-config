@@ -8,6 +8,26 @@ const users: User[] = [
 
 export default {
     async get(req: Request, res: Response) {
+        res.json({
+            message: `NOT IMPLEMENTED YET.`
+        })
+    },
+    async getAll(req: Request, res: Response) {
         return res.json(users)
+    },
+    async post(req: Request, res: Response) {
+        res.json({
+            message: `NOT IMPLEMENTED YET.`
+        })
+    },
+    async put(req: Request, res: Response) {
+        res.json({
+            message: `NOT IMPLEMENTED YET.`
+        })
+    },
+    async delete(req: Request, res: Response) {
+        res.json({
+            message: `NOT IMPLEMENTED YET.`
+        })
     }
 }
