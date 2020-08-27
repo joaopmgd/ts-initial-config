@@ -1,41 +1,45 @@
-import { UserService } from '@services/UserService'
+import { IUserService } from '@services/userService'
 import { Request, Response } from 'express'
 
-export class UserController {
+export interface IUserController {
+    getAll(req: Request, res: Response): void
+    get(req: Request, res: Response): void
+    post(req: Request, res: Response): void
+    put(req: Request, res: Response): void
+    delete(req: Request, res: Response): void
+}
 
-    private userService: UserService
+export function BuildUserController(userService: IUserService): IUserController {
 
-    constructor(userService: UserService) {
-        this.userService = userService
-    }
-
-    public async get(req: Request, res: Response) {
+    function getAll(req: Request, res: Response): void {
         res.json({
-            message: this.userService.readOne('1')
+            message: userService.readAll()
         })
     }
 
-    public async getAll(req: Request, res: Response) {
+    function get(req: Request, res: Response): void {
         res.json({
-            message: this.userService.readAll()
+            message: userService.readOne('1')
         })
     }
 
-    public async post(req: Request, res: Response) {
+    function post(req: Request, res: Response): void {
         res.json({
-            message: this.userService.create({ name: 'Dias', email: 'dias@gmail.com' })
+            message: userService.create({ name: 'Dias', email: 'dias@gmail.com' })
         })
     }
 
-    public async put(req: Request, res: Response) {
+    function put(req: Request, res: Response): void {
         res.json({
-            message: this.userService.update({ id: '1', name: 'Dias', email: 'dias@gmail.com' })
+            message: userService.update({ id: '1', name: 'Dias', email: 'dias@gmail.com' })
         })
     }
 
-    public async delete(req: Request, res: Response) {
+    function del(req: Request, res: Response): void {
         res.json({
-            message: this.userService.delete('1')
+            message: userService.remove('1')
         })
     }
+
+    return { getAll, get, post, put, delete: del }
 }

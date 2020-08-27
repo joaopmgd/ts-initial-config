@@ -1,43 +1,41 @@
 import express from 'express'
-import Router from '@routes/router'
+import { BuildRouter } from '@routes/Router'
 import bodyParser from 'body-parser'
-import { UserController } from '@controllers/UserController';
-import { UserService } from '@services/UserService';
-import { User } from '@db/models/User'
+import { BuildUserController } from '@controllers/userController';
+import { BuildUserService } from '@services/userService';
+import { IUser } from '@db/models/user'
 
 // inserçao de dados como se fosse a camada de DB
-const users: User[] = [
+const users: IUser[] = [
     { id: "1", name: 'João', email: 'joao@gmail.com' },
     { id: "2", name: 'Pedro', email: 'pedro@gmail.com' }
 ]
 
-class App {
-
-    private httpServer: any
-
-    constructor() {
-
-        this.httpServer = express()
-        this.httpServer.use(bodyParser.urlencoded({ extended: true }))
-        this.httpServer.use(bodyParser.json())
-
-        const userService = new UserService(users)
-        const userController = new UserController(userService)
-
-        new Router(this.httpServer, userController)
-    }
-
-    public Start = (port: number) => {
-        return new Promise((resolve, reject) => {
-
-            this.httpServer.listen(
-                port,
-                () => {
-                    resolve(port)
-                })
-                .on('error', (err: object) => reject(err))
-        })
-    }
+interface ICreateApp {
+    Start(port: number): Promise<void>
 }
 
-export default App
+export async function CreateApp(): Promise<ICreateApp> {
+    const httpServer = express()
+
+    httpServer.use(bodyParser.urlencoded({ extended: true }))
+    httpServer.use(bodyParser.json())
+
+    const userService = BuildUserService(users)
+    const userController = BuildUserController(userService)
+
+    BuildRouter({
+        userController,
+        server: httpServer
+    })
+
+    function Start(port: number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            httpServer.listen(port, () => {
+                resolve()
+            }).on('error', (err: object) => reject(err))
+        })
+    }
+
+    return { Start }
+}

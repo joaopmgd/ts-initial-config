@@ -22,20 +22,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@config/*": [
-        "./src/config/*"
-      ],
-      "@controllers/*": [
-        "./src/controllers/*"
-      ],
-      "@db/*": [
-        "./src/db/*"
-      ],
-      "@routes/*": [
-        "./src/routes/*"
-      ],
-      "@services/*": [
-        "./src/services/*"
+      "@*": [
+        "./src/*"
       ]
     }
   },

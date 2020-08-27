@@ -1,30 +1,35 @@
-import { User } from '@db/models/User'
+import { IUser, BuildUser, UserOptions } from '@db/models/user'
+import { Nullable } from '@@types/index'
 
-export class UserService {
+export interface IUserService {
+    readAll(): IUser[]
+    readOne(id: string): Nullable<IUser>
+    create({ name, email }: UserOptions): IUser
+    update({ id, name, email }: IUser): Nullable<IUser>
+    remove(id: string): Nullable<IUser>
+}
 
-    private users: User[]
+export function BuildUserService(users: IUser[]): IUserService {
 
-    constructor(users: User[]) {
-        this.users = users
+    function readAll(): IUser[] {
+        return users
     }
 
-    public readAll(): User[] {
-        return this.users
+    function readOne(id: string): Nullable<IUser> {
+        return users.find(x => x.id! === id)
     }
 
-    public readOne(id: string): User | undefined {
-        return this.users.find(x => x.id! === id)
+    function create({ name, email }: UserOptions): IUser {
+        return BuildUser({ name, email })
     }
 
-    public create({ name, email }: User): User {
-        return new User(name, email)
+    function update({ id, name, email }: IUser): Nullable<IUser> {
+        return users.find(x => x.id! === id)
     }
 
-    public update({ id, name, email }: User): User | undefined {
-        return this.users.find(x => x.id! === id)
+    function remove(id: string): Nullable<IUser> {
+        return users.find(x => x.id! === id)
     }
 
-    public delete(id: string): User | undefined {
-        return this.users.find(x => x.id! === id)
-    }
+    return { readAll, readOne, create, update, remove }
 }

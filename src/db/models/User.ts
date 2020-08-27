@@ -1,17 +1,20 @@
+const MIN = 0;
+const MAX = 100;
 
-const min = Math.ceil(0);
-const max = Math.floor(100);
+export type IUser = {
+    id: string,
+    name: string,
+    email: string
+}
 
-
-export class User {
-    id?: string
+export type UserOptions = {
     name: string
     email: string
+}
 
-    constructor(name: string, email: string) {
-        const n = Math.floor(Math.random() * (max - min)) + min
-        this.id = n.toString()
-        this.name = name
-        this.email = email
-    }
+export function BuildUser(options: UserOptions): IUser {
+    const n = Math.floor(Math.random() * (MAX - MIN)) + MIN
+    const id = n.toString()
+
+    return { id, name: options.name, email: options.email }
 }
