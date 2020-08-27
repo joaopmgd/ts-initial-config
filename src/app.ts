@@ -1,5 +1,5 @@
 import express from 'express'
-import Router from './router'
+import Router from '@routes/router'
 import bodyParser from 'body-parser'
 
 class App {

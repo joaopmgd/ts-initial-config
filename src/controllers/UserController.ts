@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { User } from '@models/User'
+import { User } from '@models/models/User'
 
 const users: User[] = [
     { name: 'João', email: 'joao@gmail.com' },
