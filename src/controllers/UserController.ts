@@ -1,33 +1,41 @@
+import { UserService } from '@services/UserService'
 import { Request, Response } from 'express'
-import { User } from '@models/models/User'
 
-const users: User[] = [
-    { name: 'João', email: 'joao@gmail.com' },
-    { name: 'Pedro', email: 'pedro@gmail.com' }
-]
+export class UserController {
 
-export default {
-    async get(req: Request, res: Response) {
+    private userService: UserService
+
+    constructor(userService: UserService) {
+        this.userService = userService
+    }
+
+    public async get(req: Request, res: Response) {
         res.json({
-            message: `NOT IMPLEMENTED YET.`
+            message: this.userService.readOne('1')
         })
-    },
-    async getAll(req: Request, res: Response) {
-        return res.json(users)
-    },
-    async post(req: Request, res: Response) {
+    }
+
+    public async getAll(req: Request, res: Response) {
         res.json({
-            message: `NOT IMPLEMENTED YET.`
+            message: this.userService.readAll()
         })
-    },
-    async put(req: Request, res: Response) {
+    }
+
+    public async post(req: Request, res: Response) {
         res.json({
-            message: `NOT IMPLEMENTED YET.`
+            message: this.userService.create({ name: 'Dias', email: 'dias@gmail.com' })
         })
-    },
-    async delete(req: Request, res: Response) {
+    }
+
+    public async put(req: Request, res: Response) {
         res.json({
-            message: `NOT IMPLEMENTED YET.`
+            message: this.userService.update({ id: '1', name: 'Dias', email: 'dias@gmail.com' })
+        })
+    }
+
+    public async delete(req: Request, res: Response) {
+        res.json({
+            message: this.userService.delete('1')
         })
     }
 }

@@ -1,31 +1,35 @@
 import express from 'express'
-import UserController from '@controllers/UserController'
 import cors from 'cors'
+import { UserController } from '@controllers/UserController'
 
 class Router {
 
-    constructor(server: express.Express) {
+    private userController: UserController
+
+    constructor(server: express.Express, userController: UserController) {
 
         // Create a router
         const router = express.Router()
+
+        this.userController = userController
 
         // ---------------
         //      USERS
         // ---------------
         //create a new user
-        router.post('/users', UserController.post)
+        router.post('/users', this.userController.post)
         //get all users
-        router.get('/users', UserController.getAll)
+        router.get('/users', this.userController.getAll)
         //get one user by id
-        router.get('/users/:id', UserController.get)
+        router.get('/users/:id', this.userController.get)
         //update cat
-        router.put('/users/:id', UserController.put)
+        router.put('/users/:id', this.userController.put)
         //delete a user
-        router.delete('/users/:id', UserController.delete)
+        router.delete('/users/:id', this.userController.delete)
 
         router.options('*', cors());
         server.use('/', router)
     }
 }
 
-export default Router;
+export default Router
