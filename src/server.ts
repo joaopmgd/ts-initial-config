@@ -1,7 +1,7 @@
 import { CreateApp } from './app'
-import { Configuration } from './config/Configuration'
+import { Configs } from './config/configuration'
 
-const port = Configuration.port
+const port = Configs.port
 
 async function run() {
     const app = await CreateApp()

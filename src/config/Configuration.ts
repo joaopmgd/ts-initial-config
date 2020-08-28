@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export class Configuration {
-
-    public static port: number = parseInt(process.env.PORT || '3000')
-
+export const Configs = {
+    port: Number(process.env.PORT || '3000')
 }
